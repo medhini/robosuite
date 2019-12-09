@@ -46,8 +46,10 @@ class PickPlaceTask(Task):
         """Adds arena model to the MJCF model."""
         self.arena = mujoco_arena
         self.bin_offset = mujoco_arena.bin_abs
-        self.bin2_offset = self.bin_offset
+        self.bin2_offset = self.bin_offset.copy()
         self.bin2_offset[1] = 0.68 - 0.2
+
+        # print("Offsets: ", self.bin2_offset, self.bin_offset)
 
         self.bin_size = mujoco_arena.table_full_size
         self.bin2_body = mujoco_arena.bin2_body
@@ -92,8 +94,6 @@ class PickPlaceTask(Task):
         """Places objects randomly until no collisions or max iterations hit."""
         placed_objects = []
         index = 0
-
-        # print(self.bin_size, self.mujoco_objects.items())
 
         # place objects by rejection sampling
         for _, obj_mjcf in self.mujoco_objects.items():
@@ -144,11 +144,14 @@ class PickPlaceTask(Task):
             horizontal_radius = obj_mjcf.get_horizontal_radius()
             bottom_offset = obj_mjcf.get_bottom_offset()
             success = False
+
             for _ in range(5000):  # 5000 retries
-                bin_x_half = self.bin_size[0] / 4 - horizontal_radius - 0.05
-                bin_y_half = self.bin_size[1] / 4 - horizontal_radius - 0.05
+                bin_x_half = self.bin_size[0] / 3 - horizontal_radius - 0.05
+                bin_y_half = self.bin_size[1] / 3 - horizontal_radius - 0.05
                 object_x = np.random.uniform(high=bin_x_half, low=-bin_x_half)
                 object_y = np.random.uniform(high=bin_y_half, low=-bin_y_half)
+
+                # print("Bin position: ", bin_x_half, bin_y_half)
 
                 # make sure objects do not overlap
                 object_xy = np.array([object_x, object_y, 0])
