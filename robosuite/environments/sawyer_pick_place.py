@@ -230,10 +230,11 @@ class SawyerPickPlace(SawyerEnv):
             self.visual_objects,
         )
         self.model.place_objects()
-        self.model.place_visual()
+        self.model.move_objects()
+        # self.model.place_visual()
         self.bin_pos = string_to_array(self.model.bin2_body.get("pos"))
         self.bin_size = self.model.bin_size
-
+    
     def clear_objects(self, obj):
         """
         Clears objects with name @obj out of the task space. This is useful

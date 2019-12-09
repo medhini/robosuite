@@ -38,7 +38,7 @@ if __name__ == "__main__":
     env.viewer.set_camera(camera_id=0)
 
     # do visualization
-    for i in range(1000):
+    for i in range(10000):
         action = np.random.randn(env.dof)
         obs, reward, done, _ = env.step(action)
         env.render()
