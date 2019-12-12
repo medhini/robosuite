@@ -4,6 +4,7 @@ from robosuite.environments.base import make
 from robosuite.environments.sawyer_lift import SawyerLift
 from robosuite.environments.sawyer_stack import SawyerStack
 from robosuite.environments.sawyer_pick_place import SawyerPickPlace
+from robosuite.environments.sawyer_bin_packing import SawyerBinPacking
 from robosuite.environments.sawyer_nut_assembly import SawyerNutAssembly
 
 from robosuite.environments.baxter_lift import BaxterLift

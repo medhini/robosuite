@@ -1,6 +1,7 @@
 from collections import OrderedDict
 import random
 import numpy as np
+import time
 
 import robosuite.utils.transform_utils as T
 from robosuite.utils.mjcf_utils import string_to_array
@@ -230,8 +231,7 @@ class SawyerPickPlace(SawyerEnv):
             self.visual_objects,
         )
         self.model.place_objects()
-        self.model.move_objects()
-        # self.model.place_visual()
+        self.model.place_visual()
         self.bin_pos = string_to_array(self.model.bin2_body.get("pos"))
         self.bin_size = self.model.bin_size
     

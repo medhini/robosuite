@@ -230,7 +230,9 @@ class SawyerBinPacking(SawyerEnv):
             self.visual_objects,
         )
         self.model.place_objects()
-        self.model.place_visual()
+        # time.sleep(5)
+        self.model.move_objects()
+        # self.model.place_visual()
         self.bin_pos = string_to_array(self.model.bin2_body.get("pos"))
         self.bin_size = self.model.bin_size
 
