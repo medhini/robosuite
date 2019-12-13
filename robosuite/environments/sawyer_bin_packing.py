@@ -6,7 +6,7 @@ import robosuite.utils.transform_utils as T
 from robosuite.utils.mjcf_utils import string_to_array
 from robosuite.environments.sawyer import SawyerEnv
 
-from robosuite.models.arenas import BinsArena
+from robosuite.models.arenas import BinPackingArena
 from robosuite.models.objects import (
     MilkObject,
     BreadObject,
@@ -48,6 +48,7 @@ class SawyerBinPacking(SawyerEnv):
         camera_height=256,
         camera_width=256,
         camera_depth=False,
+        baseline="none",
     ):
         """
         Args:
@@ -146,6 +147,7 @@ class SawyerBinPacking(SawyerEnv):
 
         # whether to use ground-truth object states
         self.use_object_obs = use_object_obs
+        self.baseline = baseline
 
         super().__init__(
             gripper_type=gripper_type,
@@ -188,7 +190,7 @@ class SawyerBinPacking(SawyerEnv):
         self.mujoco_robot.set_base_xpos([0, 0, 0])
 
         # load model for table top workspace
-        self.mujoco_arena = BinsArena(
+        self.mujoco_arena = BinPackingArena(
             table_full_size=self.table_full_size, table_friction=self.table_friction
         )
 
@@ -230,8 +232,11 @@ class SawyerBinPacking(SawyerEnv):
             self.visual_objects,
         )
         self.model.place_objects()
-        # time.sleep(5)
-        self.model.move_objects()
+
+        if self.baseline == 'random':
+            self.model.move_objects_random()
+        elif self.baseline == 'oracle':
+            self.model.move_objects_oracle()
         # self.model.place_visual()
         self.bin_pos = string_to_array(self.model.bin2_body.get("pos"))
         self.bin_size = self.model.bin_size

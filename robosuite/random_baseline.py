@@ -10,6 +10,7 @@ if __name__ == "__main__":
         ignore_done=True,
         use_camera_obs=False,
         control_freq=100,
+        baseline='oracle'
     )
 
     env.reset()
