@@ -220,7 +220,6 @@ class BinPackingTask(Task):
 
                 
                 pos = self.bin2_offset - bottom_offset + object_xy
-                print(pos)
                 location_valid = True
                 for pos2, r in placed_objects:
                     dist = np.linalg.norm(pos[:2] - pos2[:2], np.inf)
